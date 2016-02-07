@@ -6,6 +6,7 @@ using System.Threading;
 using System.Text;
 using System.Net.Sockets;
 using System.Collections;
+using TwitchBot;
 
 public class IRC {
     private static byte[] data;
@@ -18,17 +19,25 @@ public class IRC {
     public string hostname = "irc.twitch.tv";
     public string username ;
     public string pass ;
-    
-
-    public IRC() {
-        
-    }
 
     public IRC(string user, string pwd)
     {
         
         username = user;
         pass = pwd;
+        init();
+    }
+
+    public IRC(Connection co)
+    {
+
+        username = co.username;
+        pass = co.password;
+        init();
+    }
+
+    void init()
+    {
         channel = "#" + username;
         loginstring = "PASS " + pass + "\r\nNICK " + username + "\r\n";
         client = new TcpClient(hostname, port);
