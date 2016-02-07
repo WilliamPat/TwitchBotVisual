@@ -21,23 +21,7 @@ public class IRC {
     
 
     public IRC() {
-        channel = "#" + username;
-        loginstring = "PASS "+pass+"\r\nNICK "+username+"\r\n";
-        client = new TcpClient(hostname, port);
-        stream = client.GetStream();
-
-        Byte[] login = System.Text.Encoding.ASCII.GetBytes(loginstring);
-        stream.Write(login, 0, login.Length);
-        data = new Byte[512];
-
-        string responseData = String.Empty;
-        Int32 bytes = stream.Read(data, 0, data.Length);
-        responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
-
-        string joinstring = "JOIN " + channel + "\r\n";
-        Byte[] join = System.Text.Encoding.ASCII.GetBytes(joinstring);
-        stream.Write(join, 0, join.Length);
-        stream.Flush();
+        
     }
 
     public IRC(string user, string pwd)
@@ -158,6 +142,8 @@ public class IRC {
 
     public string getMessages()
     {
+        if (client== null) return "";
+
         byte[] myReadBuffer = new byte[1024];
         StringBuilder myCompleteMessage = new StringBuilder();
         int numberOfBytesRead = 0;
